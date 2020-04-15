@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import axios from 'axios';
-import { Route, NavLink, Switch } from 'react-router-dom';
+import { Route, NavLink, Switch/* , Redirect */ } from 'react-router-dom';
 
 import './Blog.css';
 import Posts from './Posts/Posts';
@@ -8,6 +8,9 @@ import NewPost from './NewPost/NewPost';
 // import FullPost from './FullPost/FullPost';
 
 class Blog extends Component {
+    state = {
+        auth : false
+    }
 
     render () {
         return (
@@ -35,8 +38,16 @@ class Blog extends Component {
                 <Route path="/" render={ () => <h1>Home 2</h1>} />
                 */}
                 <Switch>
-                    <Route path="/new-post" component={NewPost} />
-                    <Route path="/posts" component={Posts} />   
+                    { this.setState.auth ? <Route path="/new-post" component={NewPost} /> : null}
+                    <Route path="/posts"  component={Posts} />
+
+                    {/* Esto no deja de ser una forma de default.. si nada anterior funciona, siempre caerá en / */}
+                    {/* <Redirect from="/" to="/posts" /> */}
+                    {/* <Route path="/" component={Posts} /> */}
+
+                    {/* Aqui veremos outra forma de gerar um encaminhamento default */}
+                    <Route render={() => <center><h1>Not found</h1></center>} />
+
                 </Switch>
             </div>
         );

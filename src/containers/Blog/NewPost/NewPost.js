@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import axios from 'axios';
 import axios from '../../../axios';
+import { Redirect } from 'react-router-dom';
 
 import './NewPost.css';
 
@@ -8,7 +9,8 @@ class NewPost extends Component {
     state = {
         title: '',
         content: '',
-        author: 'Max'
+        author: 'Daniel',
+        submitted: false
     }
 
     componentDidMount() {
@@ -16,6 +18,7 @@ class NewPost extends Component {
     }
 
     postDataHandler = () => {
+        // console.log("Cliquei em Add Post");
         const data = {
             title: this.state.title,
             body: this.state.content,
@@ -23,14 +26,24 @@ class NewPost extends Component {
         }
         axios.post('posts',data)
             .then( response => {
-                console.log("Posted " );
-                console.log(response);
+                // console.log("Posted " );
+                // console.log(response);
+                
+                // 3 formas de voltar a posts depois de um novo post..
+                // this.setState({submitted: true});   // força o redirect
+                // this.props.history.push('/posts');   // altera o history, mas perdemos push afeta o voltar
+                this.props.history.replace('/posts');   // tira new-post do history, portanto ao voltar vai para posts
             });
     }
 
     render () {
+        let redirect = null;
+        if(this.state.submitted){
+            redirect = <Redirect to="/posts" />
+        }
         return (
             <div className="NewPost">
+                {redirect}
                 <h1>Add a Post</h1>
                 <label>Title</label>
                 <input type="text" value={this.state.title} onChange={(event) => this.setState({title: event.target.value})} />
@@ -38,6 +51,7 @@ class NewPost extends Component {
                 <textarea rows="4" value={this.state.content} onChange={(event) => this.setState({content: event.target.value})} />
                 <label>Author</label>
                 <select value={this.state.author} onChange={(event) => this.setState({author: event.target.value})}>
+                    <option value="Daniel">Daniel</option>
                     <option value="Max">Max</option>
                     <option value="Manu">Manu</option>
                 </select>

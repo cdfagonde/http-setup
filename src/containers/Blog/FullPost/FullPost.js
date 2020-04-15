@@ -10,7 +10,7 @@ class FullPost extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props);
+        // console.log(this.props);
         this.loadData();
     }
 
@@ -36,8 +36,8 @@ class FullPost extends Component {
         // console.log('Querem excluir '+this.props.id + ' ou ' + this.props.match.params.id + ' ???');
         axios.delete( 'posts/'+this.props.match.params.id )
             .then( response => {
-                console.log("Deleted post "+this.props.match.params.id);
-                console.log(response);
+                // console.log("Deleted post "+this.props.match.params.id);
+                // console.log(response);
             });
     }
 
